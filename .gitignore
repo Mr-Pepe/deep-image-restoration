@@ -1,0 +1,6 @@
+/datasets/
+/saves/
+
+!*.gitkeep
+
+*.directory

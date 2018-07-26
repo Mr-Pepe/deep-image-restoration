@@ -1,5 +1,11 @@
 import requests
 
+# TAKE ID FROM SHAREABLE LINK
+file_id = 'https://drive.google.com/open?id=0B7EVK8r0v71pZjFTYXZWM3FlRnM'
+# DESTINATION FILE ON YOUR DISK
+destination = ''
+
+
 def download_file_from_google_drive(id, destination):
     def get_confirm_token(response):
         for key, value in response.cookies.items():
@@ -31,8 +37,4 @@ def download_file_from_google_drive(id, destination):
 
 
 
-# TAKE ID FROM SHAREABLE LINK
-file_id = 'https://drive.google.com/open?id=0B7EVK8r0v71pZjFTYXZWM3FlRnM'
-# DESTINATION FILE ON YOUR DISK
-destination = '/home/felipepeter/CelebA_dataset/zip'
 download_file_from_google_drive(file_id, destination)

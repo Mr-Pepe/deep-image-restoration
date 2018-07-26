@@ -7,9 +7,6 @@ import os
 import pickle
 from src.utils import Corrupter
 
-
-
-
 class Solver(object):
     default_adam_args = {"lr": 1e-4,
                          "betas": (0.9, 0.999),

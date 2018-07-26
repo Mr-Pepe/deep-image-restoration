@@ -32,9 +32,9 @@ def show_images_in_grid(images):
 
 
 
-celeba_path = '/home/felipe/Projects/CelebA_dataset/'
-sun397_path = '/home/felipe/Projects/SUN397/'
-db11_path = '/home/felipe/Projects/DB11'
+celeba_path = ''
+sun397_path = ''
+db11_path = ''
 
 db11_set            = datasets.ImageFolder(db11_path, transform=transforms.Compose([transforms.Resize((128,128)), transforms.ToTensor(), ]))
 sun397_set          = datasets.ImageFolder(sun397_path, transform=transforms.Compose([transforms.Resize((128,128)), transforms.ToTensor(), ]))
@@ -43,10 +43,10 @@ train_data_loader   = torch.utils.data.DataLoader(dataset=celeba_trainset, batch
 val_data_loader     = torch.utils.data.DataLoader(dataset=celeba_trainset, batch_size=100, num_workers=4)
 
 
-model_path = "../saves/train20180708185328/model1080"
+model_path = ""
 model = torch.load(model_path)
 
-solver_path = '../saves/train20180708185328/solver1080'
+solver_path = ''
 
 
 corrupter = Corrupter([0, 15, 30, 45, 60, 75], 'pixel_interpolation')

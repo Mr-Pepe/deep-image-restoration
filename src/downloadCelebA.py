@@ -1,8 +1,8 @@
 import requests
 
-# TAKE ID FROM SHAREABLE LINK
-file_id = 'https://drive.google.com/open?id=0B7EVK8r0v71pZjFTYXZWM3FlRnM'
-# DESTINATION FILE ON YOUR DISK
+# Put google drive link to the dataset here
+file_id = ''
+# Destination file
 destination = ''
 
 

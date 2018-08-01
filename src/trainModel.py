@@ -13,12 +13,12 @@ import pickle
 
 config = {
 
-    'data_path':        '/home/felipe/Projects/deep-image-restoration/datasets/CelebA_dataset/', # Path to the parent directory of the image folder
+    'data_path':        '', # Path to the parent directory of the image folder
 
-    'continue_training':   True,      # Specify whether to continue training with an existing model and solver
+    'continue_training':   False,      # Specify whether to continue training with an existing model and solver
     'start_epoch':            100,             # Specify the number of training epochs of the existing model
-    'model_path': '../saves/train20180727211455/model100',
-    'solver_path': '../saves/train20180727211455/solver100',
+    'model_path': '',
+    'solver_path': '',
 
     'do_overfitting': True,            # Set overfit or regular training
 

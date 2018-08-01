@@ -15,9 +15,9 @@ from src.utils import Corrupter
 
 config = {
 
-    'data_path':        '/home/felipe/Projects/deep-image-restoration/datasets/CelebA_dataset/', # Path to the parent directory of the image folder
+    'data_path': '', # Path to the parent directory of the image folder
 
-    'model_path': '../saves/train20180727234513/model1100',
+    'model_path': '',
 
     'do_overfitting': True,            # Set overfit or regular training
 

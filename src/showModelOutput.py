@@ -9,40 +9,48 @@ import torchvision.datasets as datasets
 from torch.utils.data.sampler import SequentialSampler, SubsetRandomSampler
 from src.model import EncoderDecoder
 import pickle
+from src.utils import eval_model
 
 from src.utils import Corrupter
 
+config = {
+
+    'data_path':        '/home/felipe/Projects/deep-image-restoration/datasets/CelebA_dataset/', # Path to the parent directory of the image folder
+
+    'model_path': '../saves/train20180727234513/model1100',
+
+    'do_overfitting': True,            # Set overfit or regular training
+
+    'val_set_indices': range(100),      # Indices of the images to load for testing
+    'num_show_images': 10,                 # Number of images to show
+
+    'num_workers': 4,                   # Number of workers for data loading
+
+    'mode': 'pixel_interpolation',      # Define the image restoration task
+    'min_max_corruption': [0, 1],      # Define the range of possible corruptions
+
+    'num_subtasks': 5,                  # Number of subtasks
+}
 
 
 
+data_set = datasets.ImageFolder(config['data_path'], transform=transforms.Compose([transforms.Resize((64, 64)), transforms.ToTensor(), ]))
 
-plt.interactive(False)
+data_sampler  = SequentialSampler(config['val_set_indices'])
 
-celeba_path = ''
+data_loader   = torch.utils.data.DataLoader(dataset=data_set, batch_size=100, num_workers=config['num_workers'], sampler=data_sampler)
 
-num_train_overfit = 100
-overfit_sampler = SequentialSampler(range(num_train_overfit))
-num_train_regular = 100000
-train_data_sampler  = SubsetRandomSampler(range(num_train_regular))
-val_data_sampler    = SubsetRandomSampler(range(num_train_regular,101000))
+model = torch.load(config['model_path'])
 
-celeba_trainset     = datasets.ImageFolder(celeba_path, transform=transforms.Compose([transforms.Resize((64,64)), transforms.ToTensor(), ]))
-train_data_loader = torch.utils.data.DataLoader(dataset=celeba_trainset, batch_size=100, num_workers=4, sampler=overfit_sampler)
-val_data_loader     = torch.utils.data.DataLoader(dataset=celeba_trainset, batch_size=100, num_workers=4, sampler=val_data_sampler)
+sampling_points = np.linspace(config['min_max_corruption'][0], config['min_max_corruption'][1], config['num_subtasks']+1)
+corrupter = Corrupter(config['mode'], sampling_points)
 
-
-model_path = "/home/felipe/Projects/seminar/saves/train20180709141228/model230"
-model = torch.load(model_path)
-# model = EncoderDecoder()
-
-corrupter = Corrupter([0, 15, 30, 45, 60, 75], 'pixel_interpolation')
-
-batch = next(iter(val_data_loader))
+batch = next(iter(data_loader))
 batch = batch[0]
 
-batch = corrupter(batch[30:60], np.array([5,5,5,5,5]))
+batch = corrupter(batch, np.array(np.ones((config['num_subtasks'],)) * data_loader.batch_size / config['num_subtasks']))
 
-evalModel(batch[0:30])
+eval_model(model, batch[np.linspace(0,99,config['num_show_images'], dtype=int).tolist()])
 
 
 

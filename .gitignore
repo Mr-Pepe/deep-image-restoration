@@ -1,7 +1,8 @@
 /datasets/**
 /saves/**
-
-*.directory
 .idea/
+*.directory
+/src/__pycache__/
+
 
 !*.gitkeep

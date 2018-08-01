@@ -1,15 +1,28 @@
 import numpy as np
 import torch
 import matplotlib.pyplot as plt
-
+from torchvision import transforms
+import pickle
 
 class Corrupter(object):
 
-    def __init__(self, sampling_points, mode='pixel_interpolation'):
+    def __init__(self, mode=None, sampling_points=None):
+
+        if not sampling_points.any():
+            raise Exception('No sampling points for the corruption task were given.')
+
+        if not mode:
+            raise Exception('No corruption mode specified.')
+
+
         if mode=='pixel_interpolation':
             self.corrupt = self.delete_pixels
 
+        else:
+            raise Exception('Unknown corruption mode specified.')
+
         self.sampling_points = sampling_points
+
 
     def __call__(self, batch, num_per_subtask):
         return self.corrupt(batch, num_per_subtask)
@@ -50,8 +63,8 @@ class Corrupter(object):
         images.transpose(0, 1)[:, mask.byte()] = 0
         return images
 
-def eval_model(images):
-
+def eval_model(model, images):
+    plt.interactive(False)
     for image in images:
         to_pil = transforms.ToPILImage()
 
@@ -65,7 +78,7 @@ def eval_model(images):
 
         plt.subplot(1, 3, 3)
         plt.imshow(to_pil(restored[0]-image))
-        plt.show()
+        plt.show(block=True)
 
 
 def show_solver_history(path):

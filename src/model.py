@@ -25,7 +25,7 @@ class EncoderDecoder(nn.Module):
         channels, height, width = input_dim
 
         nef = 64
-        n_bottleneck = 8192
+        n_bottleneck = 100
 
         self.conv1      = nn.Conv2d(3, nef, kernel_size=4, stride=2, padding=1)
         self.batchnorm1 = nn.BatchNorm2d(nef)

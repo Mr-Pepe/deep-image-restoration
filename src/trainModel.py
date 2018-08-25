@@ -69,13 +69,15 @@ val_data_loader     = torch.utils.data.DataLoader(dataset=data_set, batch_size=c
 if config['continue_training']:
     model = torch.load(config['model_path'])
     solver = pickle.load(open(config['solver_path'], 'rb'))
+    start_epoch = config['start_epoch']
 else:
     model = EncoderDecoder()
     solver = Solver(optim_args={"lr": config['learning_rate'],
                                 "betas": config['betas']})
+    start_epoch = 0
 
 solver.train(lr_decay=config['lr_decay'],
-             start_epoch=config['start_epoch'],
+             start_epoch=start_epoch,
              model=model,
              train_loader=train_data_loader,
              val_loader=train_data_loader,
